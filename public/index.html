@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos Tottus - Reporte</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #eaeaea;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      color: #444;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      margin: 5px 0;
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    .price {
+      color: #27ae60;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .info {
+      font-size: 0.9em;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .flex {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
+    .flex.si {
+      color: #2ecc71;
+    }
+
+    .flex.no {
+      color: #e74c3c;
+    }
+
+    .card a {
+      margin-top: 10px;
+      text-decoration: none;
+      color: #3498db;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Reporte de Productos Tottus</h2>
+    </div>
+    <div class="grid" id="product-grid"></div>
+  </div>
+
+  <script>
+    fetch("data/productos.json")
+      .then(response => response.json())
+      .then(data => {
+        const grid = document.getElementById("product-grid");
+        data.forEach(p => {
+          const card = `
+            <div class="card">
+              <img src="${p.imagen}" alt="Producto">
+              <h3>${p.nombre}</h3>
+              <div class="price">${p.precio}</div>
+              <div class="info"><strong>Marca:</strong> ${p.marca}</div>
+              <div class="info"><strong>Categoría:</strong> ${p.categoria}</div>
+              <div class="info"><strong>Subcategoría:</strong> ${p.subcategoria}</div>
+              <div class="flex ${p.flexible === "Sí" ? "si" : "no"}">
+                Flexible: ${p.flexible}
+              </div>
+              <a href="${p.enlace}" target="_blank">Ver producto</a>
+            </div>
+          `;
+          grid.insertAdjacentHTML("beforeend", card);
+        });
+      });
+  </script>
+</body>
+
+</html>
